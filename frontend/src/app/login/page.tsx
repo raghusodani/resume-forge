@@ -397,7 +397,7 @@ export default function LoginPage() {
               Welcome Back 👋
             </h2>
             <p className="text-lg text-gray-400">
-              Let's forge some amazing resumes
+              Let&apos;s forge some amazing resumes
             </p>
           </div>
 
@@ -479,7 +479,7 @@ export default function LoginPage() {
             {/* Signup Link */}
             <div className="mt-6 pt-6 border-t border-white/10 text-center">
               <p className="text-gray-400">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/signup" className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">
                   Sign up here
                 </Link>
