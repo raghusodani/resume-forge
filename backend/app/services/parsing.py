@@ -65,8 +65,15 @@ async def parse_pdf_resume(file: UploadFile) -> Resume:
             if "items" in skill_cat and "skills" not in skill_cat:
                 skill_cat["skills"] = skill_cat.pop("items")
                 
+    if "contact_info" not in data:
+        data["contact_info"] = {}
+
     if "contact_info" in data:
         ci = data["contact_info"]
+        
+        # Handle required Name
+        if "name" not in ci or not ci["name"]:
+            ci["name"] = "Unknown Candidate"
         # Handle optional URLs
         for field in ["linkedin", "github", "website"]:
             if field in ci:

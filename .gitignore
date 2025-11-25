@@ -65,6 +65,7 @@ Thumbs.db
 
 # Database (JSON file storage)
 # We'll keep users_db.json for now since it's the database
+*.db
 
 # Playwright
 test-results/

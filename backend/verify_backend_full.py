@@ -12,7 +12,7 @@ def test_auth():
         response = requests.post(f"{BASE_URL}/auth/login", json=payload)
         if response.status_code == 200:
             print("✅ Login successful")
-            return response.json()["token"]
+            return response.json()["access_token"]
         else:
             print(f"❌ Login failed: {response.status_code} - {response.text}")
             return None
@@ -22,7 +22,7 @@ def test_auth():
 
 def test_users(token):
     print("\nTesting Users...")
-    headers = {"x-token": token}
+    headers = {"Authorization": f"Bearer {token}"}
     
     # Get Resume
     response = requests.get(f"{BASE_URL}/users/me/resume", headers=headers)
@@ -33,7 +33,7 @@ def test_users(token):
 
 def test_pdf_parsing(token):
     print("\nTesting PDF Parsing...")
-    headers = {"x-token": token}
+    headers = {"Authorization": f"Bearer {token}"}
     
     # Create a dummy PDF if not exists
     if not os.path.exists("dummy_resume.pdf"):
@@ -49,8 +49,46 @@ def test_pdf_parsing(token):
     else:
         print(f"❌ PDF Parsing failed: {response.status_code} - {response.text}")
 
+def test_tailoring(token):
+    print("\nTesting Tailoring...")
+    headers = {"Authorization": f"Bearer {token}"}
+    
+    # Dummy JD
+    jd_payload = {"raw_text": "Software Engineer with Python and React skills."}
+    
+    try:
+        # 1. Tailor
+        response = requests.post(f"{BASE_URL}/users/me/tailor", headers=headers, json=jd_payload)
+        if response.status_code == 200:
+            print("✅ Tailoring successful")
+            tailored_resume = response.json()
+            return tailored_resume
+        else:
+            print(f"❌ Tailoring failed: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        print(f"❌ Tailoring connection failed: {e}")
+        return None
+
+def test_generate_pdf(tailored_resume):
+    print("\nTesting PDF Generation...")
+    
+    try:
+        response = requests.post(f"{BASE_URL}/generate-pdf", json=tailored_resume)
+        if response.status_code == 200:
+            print("✅ PDF Generation successful")
+            with open("Tailored_Resume_Test.pdf", "wb") as f:
+                f.write(response.content)
+        else:
+            print(f"❌ PDF Generation failed: {response.status_code} - {response.text}")
+    except Exception as e:
+        print(f"❌ PDF Generation connection failed: {e}")
+
 if __name__ == "__main__":
     token = test_auth()
     if token:
         test_users(token)
         test_pdf_parsing(token)
+        resume = test_tailoring(token)
+        if resume:
+            test_generate_pdf(resume)

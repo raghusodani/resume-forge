@@ -13,9 +13,9 @@ class Keyword(BaseModel):
     category: str  # e.g., "Technical", "Soft Skill", "Domain"
 
 class JDAnalysis(BaseModel):
-    role_type: str
-    keywords: List[Keyword]
-    required_skills: List[str]
-    preferred_skills: List[str]
-    experience_level: str
-    key_responsibilities: List[str]
+    role_type: Optional[str] = "Unknown"
+    keywords: List[Keyword] = []
+    required_skills: List[str] = []
+    preferred_skills: List[str] = []
+    experience_level: Optional[str] = "Unknown"
+    key_responsibilities: List[str] = []
