@@ -7,8 +7,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Resume Tailor",
-  description: "Tailor your resume to any job description",
+  title: "Resume Forge",
+  description: "Forge your perfect resume with AI",
 };
 
 export default function RootLayout({
