@@ -64,6 +64,10 @@ async def parse_pdf_resume(file: UploadFile) -> Resume:
             # Remap 'items' to 'skills' if LLM uses the wrong key
             if "items" in skill_cat and "skills" not in skill_cat:
                 skill_cat["skills"] = skill_cat.pop("items")
+            
+            # Ensure skills is a list
+            if "skills" not in skill_cat:
+                skill_cat["skills"] = []
                 
     if "contact_info" not in data:
         data["contact_info"] = {}

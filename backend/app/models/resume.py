@@ -37,7 +37,7 @@ class ProjectItem(BaseModel):
 
 class SkillCategory(BaseModel):
     category: str
-    skills: List[str]
+    skills: List[str] = []
 
 class Resume(BaseModel):
     """
