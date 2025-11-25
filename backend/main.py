@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.logger import logger
 from app.core.exceptions import register_global_exception_handler
 from app.db.session import engine, Base
+import app.models.sql_models  # Import models so they are registered with Base
 
 # Create DB tables
 Base.metadata.create_all(bind=engine)
