@@ -1,0 +1,46 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\titleformat{\section}{\large\bfseries\uppercase}{}{0em}{}[\titlerule]
+
+\begin{document}
+
+\begin{center}
+    {\Huge \textbf{ {{ resume.contact_info.name }} }} \\
+    {{ resume.contact_info.email }} | {{ resume.contact_info.phone }} \\
+    \href{ {{ resume.contact_info.linkedin }} }{LinkedIn} | \href{ {{ resume.contact_info.github }} }{GitHub}
+\end{center}
+
+\section{Experience}
+\begin{itemize}[leftmargin=*]
+    {% for job in resume.experience %}
+    \item \textbf{ {{ job.company }} } \hfill {{ job.start_date }} -- {{ job.end_date }} \\
+    \textit{ {{ job.position }} } \\
+    \begin{itemize}
+        {% for desc in job.description %}
+        \item {{ desc }}
+        {% endfor %}
+    \end{itemize}
+    {% endfor %}
+\end{itemize}
+
+\section{Education}
+\begin{itemize}[leftmargin=*]
+    {% for edu in resume.education %}
+    \item \textbf{ {{ edu.institution }} } \hfill {{ edu.start_date }} -- {{ edu.end_date }} \\
+    {{ edu.degree }}
+    {% endfor %}
+\end{itemize}
+
+\section{Skills}
+\begin{itemize}[leftmargin=*]
+    {% for category in resume.skills %}
+    \item \textbf{ {{ category.category }}: } {{ category.skills | join(', ') }}
+    {% endfor %}
+\end{itemize}
+
+\end{document}

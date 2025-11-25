@@ -1,0 +1,108 @@
+{
+  "users": {
+    "admin": {
+      "password": "password",
+      "resume": {
+        "contact_info": {
+          "name": "RAGHU RAJ SODANI",
+          "email": "sodaniraghuraj@gmail.com",
+          "phone": "+91-9928486320",
+          "linkedin": "https://www.linkedin.com/in/raghu-raj-sodani/",
+          "github": "https://github.com/raghusodani",
+          "website": null,
+          "location": ""
+        },
+        "summary": "Undergraduate of Computer Science & Engineering",
+        "education": [
+          {
+            "institution": "Indian Institute of Information Technology, Vadodara",
+            "degree": "B.Tech in CSE",
+            "field_of_study": "Computer Science & Engineering",
+            "start_date": "August 2019",
+            "end_date": "May 2023",
+            "gpa": null,
+            "description": null
+          }
+        ],
+        "experience": [
+          {
+            "company": "Amazon (Identity Services / CS Stores Fixed Corporate)",
+            "position": "Software Development Engineer",
+            "location": "",
+            "start_date": "May 2024",
+            "end_date": "now",
+            "current": false,
+            "description": [
+              "Designed Data Pipelinefor transferring data from DynamoDB to Amazon Data lake incorporating correct transformation layer and data correctness layer in pipeline.",
+              "Built an end-to-end Amazon Customer Service landing page using a React frontend and Spring-based Java backend with GraphQL data sources. The feature served 100K customers dailyand led to a measurable business impact \u2014 reducing customer service contacts and improving self-service resolution rates signi\ufb01cantly.",
+              "Created Order Cancellation \ufb02ow for Voice bot to trigger when a customer calls Amazon, designed graphql schemas to achive this and served around 10K customers daily worldwide.",
+              "Conducted JDK17 migration campaign across 28 packages."
+            ],
+            "technologies": []
+          },
+          {
+            "company": "MAQ Software",
+            "position": "Software Development Engineer",
+            "location": "",
+            "start_date": "Nov 2023",
+            "end_date": "May 2024",
+            "current": false,
+            "description": [
+              "Migrated FasttrackBI Portal completely from legacy code which was previously implemented in .NET framework and AngularJS to .NET 7 and React with e\ufb03ciency of typescript.",
+              "As the server deals with a large amount of data for showing reports, query time was cut down by almost 30 percentand loading it e\ufb03- ciently using React's virtual DOM."
+            ],
+            "technologies": []
+          },
+          {
+            "company": "Amazon (CS Stores Fixed Corporate)",
+            "position": "Software Development Engineer Intern",
+            "location": "",
+            "start_date": "January 2023",
+            "end_date": "June 2023",
+            "current": false,
+            "description": [
+              "Created Spring-based APIsfor and GraphQL queries to bind fron- tend and APIs with the data layer in between. Reducing the latency by a signi\ufb01cant amount and e\ufb03ciently resolution of consumer queries.",
+              "Developed UI for a feature to enable users to upload an attachment related to its issue using React and Vanilla-js."
+            ],
+            "technologies": []
+          },
+          {
+            "company": "Foxmula - The Smart Way",
+            "position": "Frontend Development Intern",
+            "location": "",
+            "start_date": "October 2021",
+            "end_date": "July 2022",
+            "current": false,
+            "description": [
+              "Built the company's education portal which would enable any org to conduct to run an institute online, from live classes to online tests and assignments.",
+              "Developed frontend using React and Redux."
+            ],
+            "technologies": []
+          }
+        ],
+        "projects": [
+          {
+            "name": "ISRO Safe Ship Nav",
+            "description": "Utilized ISRO's dataset to determine the optimal path for ships in deep sea navigation. Developed a comprehensive graph incorporating Geo-spatial data, including depth and wave height, sourced from ISRO.",
+            "url": null,
+            "technologies": [
+              "Python",
+              "Django-RestAPI",
+              "React.js"
+            ]
+          }
+        ],
+        "skills": [
+          {
+            "category": "Programming Languages",
+            "skills": [
+              "Java"
+            ]
+          }
+        ],
+        "certifications": [],
+        "languages": []
+      }
+    }
+  }
+}

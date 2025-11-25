@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+jinja2
+openai
+langchain
+python-dotenv
+google-generativeai
+httpx
+pypdf
+python-multipart

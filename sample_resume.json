@@ -1,0 +1,37 @@
+{
+  "contact_info": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "123-456-7890",
+    "linkedin": "https://linkedin.com/in/johndoe",
+    "github": "https://github.com/johndoe"
+  },
+  "summary": "Experienced Software Engineer with a focus on backend systems.",
+  "experience": [
+    {
+      "company": "Tech Corp",
+      "position": "Senior Engineer",
+      "start_date": "2020",
+      "end_date": "Present",
+      "description": [
+        "Led a team of 5 engineers.",
+        "Improved system performance by 20%."
+      ],
+      "technologies": ["Python", "AWS"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Tech",
+      "degree": "BS Computer Science",
+      "start_date": "2016",
+      "end_date": "2020"
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "skills": ["Python", "JavaScript", "Go"]
+    }
+  ]
+}
