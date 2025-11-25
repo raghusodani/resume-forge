@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Loader } from '@/components/ui/Loader';
 import { ResumePreview } from '@/components/resume/ResumePreview';
+import { PdfViewer } from '@/components/resume/PdfViewer';
 import { Upload, FileText, LogOut, Edit2, Save, X, ChevronRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -236,18 +237,13 @@ export default function Dashboard() {
                     animate={{ opacity: 1, height: 'auto' }}
                     className="pt-6 border-t border-gray-100"
                   >
+
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-bold text-green-600 flex items-center gap-2">
                         <CheckCircle className="w-5 h-5" /> Tailored Resume Ready
                       </h3>
-                      <a href={pdfUrl} download="Tailored_Resume.pdf">
-                        <Button size="sm" variant="outline">Download PDF</Button>
-                      </a>
                     </div>
-                    <iframe 
-                      src={pdfUrl} 
-                      className="w-full h-[400px] rounded-lg border border-gray-200 shadow-sm" 
-                    />
+                    <PdfViewer url={pdfUrl} />
                   </motion.div>
                 )}
               </AnimatePresence>
