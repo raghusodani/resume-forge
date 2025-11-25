@@ -11,6 +11,7 @@ import { ResumePreview } from '@/components/resume/ResumePreview';
 import { PdfViewer } from '@/components/resume/PdfViewer';
 import { Upload, FileText, LogOut, Edit2, Save, X, ChevronRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 export default function Dashboard() {
   const { token, logout, isAuthenticated, isLoading: authLoading } = useAuth();
@@ -83,6 +84,13 @@ export default function Dashboard() {
       const pdfBlob = await api.generatePdf(tailoredResume);
       const url = URL.createObjectURL(pdfBlob);
       setPdfUrl(url);
+
+      // Save to History
+      try {
+        await api.saveHistory(token, jdText, tailoredResume);
+      } catch (err) {
+        console.error('Failed to save to history', err);
+      }
       
       setStatus('complete');
     } catch (error) {
@@ -102,6 +110,11 @@ export default function Dashboard() {
           <span className="font-bold text-xl tracking-tight">Resume Tailor</span>
         </div>
         <div className="flex items-center gap-4">
+          <Link href="/history">
+            <Button variant="ghost" size="sm" className="text-gray-500 hover:text-blue-600">
+              <FileText className="w-4 h-4 mr-2" /> History
+            </Button>
+          </Link>
           <Button variant="ghost" size="sm" onClick={logout} className="text-gray-500 hover:text-red-600">
             <LogOut className="w-4 h-4 mr-2" /> Logout
           </Button>

@@ -37,10 +37,12 @@ register_global_exception_handler(app)
 from app.api.routes import router as api_router
 from app.api.auth import router as auth_router
 from app.api.users import router as users_router
+from app.api.history import router as history_router
 
 app.include_router(api_router, prefix="/api/v1")
 app.include_router(auth_router, prefix="/api/v1/auth")
 app.include_router(users_router, prefix="/api/v1/users")
+app.include_router(history_router, prefix="/api/v1/history", tags=["History"])
 
 @app.get("/")
 async def root():

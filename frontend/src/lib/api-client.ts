@@ -107,6 +107,22 @@ class ApiClient {
 
     return response.blob();
   }
+
+  // History
+  async getHistory(token: string) {
+    return this.authRequest<any[]>('/history/', token);
+  }
+
+  async saveHistory(token: string, job_description: string, content: any) {
+    return this.authRequest<any>('/history/', token, {
+      method: 'POST',
+      body: JSON.stringify({ job_description, content }),
+    });
+  }
+
+  async getHistoryItem(token: string, id: number) {
+    return this.authRequest<any>(`/history/${id}`, token);
+  }
 }
 
 export class ApiError extends Error {
