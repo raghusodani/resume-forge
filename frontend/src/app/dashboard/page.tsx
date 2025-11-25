@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getMyResume, updateMyResume, tailorMyResume, generatePdf, parsePdfResume, Resume } from '@/lib/api';
+import { api, Resume } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Loader } from '@/components/ui/Loader';
@@ -11,7 +12,7 @@ import { Upload, FileText, LogOut, Edit2, Save, X, ChevronRight, CheckCircle, Al
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Dashboard() {
-  const [token, setToken] = useState<string | null>(null);
+  const { token, logout, isAuthenticated, isLoading: authLoading } = useAuth();
   const [baseResume, setBaseResume] = useState<Resume | null>(null);
   const [resumeJson, setResumeJson] = useState('');
   const [jdText, setJdText] = useState('');
@@ -22,18 +23,16 @@ export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (!storedToken) {
+    if (!authLoading && !isAuthenticated) {
       router.push('/login');
-      return;
+    } else if (isAuthenticated && token) {
+      fetchBaseResume(token);
     }
-    setToken(storedToken);
-    fetchBaseResume(storedToken);
-  }, [router]);
+  }, [isAuthenticated, authLoading, token, router]);
 
   const fetchBaseResume = async (authToken: string) => {
     try {
-      const resume = await getMyResume(authToken);
+      const resume = await api.getResume(authToken);
       if (resume) {
         setBaseResume(resume);
         setResumeJson(JSON.stringify(resume, null, 2));
@@ -47,10 +46,9 @@ export default function Dashboard() {
     if (!token) return;
     try {
       const resume: Resume = JSON.parse(resumeJson);
-      await updateMyResume(token, resume);
+      await api.updateResume(token, resume);
       setBaseResume(resume);
       setIsEditing(false);
-      // alert('Base resume saved!'); // Replaced with UI feedback if possible, or just silent success
     } catch (error) {
       alert('Invalid JSON or save failed');
     }
@@ -62,7 +60,7 @@ export default function Dashboard() {
     try {
       setIsParsing(true);
       const file = e.target.files[0];
-      const parsedResume = await parsePdfResume(token, file);
+      const parsedResume = await api.parsePdf(token, file);
       setBaseResume(parsedResume);
       setResumeJson(JSON.stringify(parsedResume, null, 2));
       setIsParsing(false);
@@ -78,10 +76,10 @@ export default function Dashboard() {
     try {
       setStatus('tailoring');
       
-      const tailoredResume = await tailorMyResume(token, { raw_text: jdText });
+      const tailoredResume = await api.tailorResume(token, { raw_text: jdText });
       
       setStatus('generating');
-      const pdfBlob = await generatePdf(tailoredResume);
+      const pdfBlob = await api.generatePdf(tailoredResume);
       const url = URL.createObjectURL(pdfBlob);
       setPdfUrl(url);
       
@@ -92,13 +90,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    router.push('/login');
-  };
-
-  if (!token) return null;
+  if (authLoading || !isAuthenticated) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
@@ -109,7 +101,7 @@ export default function Dashboard() {
           <span className="font-bold text-xl tracking-tight">Resume Tailor</span>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={handleLogout} className="text-gray-500 hover:text-red-600">
+          <Button variant="ghost" size="sm" onClick={logout} className="text-gray-500 hover:text-red-600">
             <LogOut className="w-4 h-4 mr-2" /> Logout
           </Button>
         </div>

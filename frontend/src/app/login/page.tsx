@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -123,7 +123,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [visibleCompanies, setVisibleCompanies] = useState(8);
   const [shootingStar, setShootingStar] = useState<number | null>(null);
-  const router = useRouter();
+  const { login } = useAuth();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -146,10 +146,8 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const data = await login(username, password);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('username', data.username);
-      router.push('/dashboard');
+      await login(username, password);
+      // Redirect is handled by login function in AuthContext
     } catch (err) {
       setError('Invalid credentials');
     } finally {

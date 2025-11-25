@@ -1,16 +1,29 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.core.logger import logger
+from app.core.exceptions import register_global_exception_handler
+from app.db.session import engine, Base
+
+# Create DB tables
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Resume Tailor API")
 
-# Configure CORS
+# Configure CORS - restrict to specific origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        # Add production domain when deployed
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
+
+# Register global exception handler
+register_global_exception_handler(app)
 
 from app.api.routes import router as api_router
 from app.api.auth import router as auth_router

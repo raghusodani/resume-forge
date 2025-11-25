@@ -1,6 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
-from app.db import get_user
+from app.services.auth import verify_password
+from app.core.security import create_access_token
+from sqlalchemy.orm import Session
+from app.db.session import get_db
+from app.models.sql_models import User
 
 router = APIRouter()
 
@@ -9,14 +13,27 @@ class LoginRequest(BaseModel):
     password: str
 
 class LoginResponse(BaseModel):
-    token: str
+    access_token: str
+    token_type: str = "bearer"
     username: str
 
 @router.post("/login", response_model=LoginResponse)
-async def login(creds: LoginRequest):
-    user = get_user(creds.username)
-    if not user or user["password"] != creds.password:
+async def login(request: LoginRequest, db: Session = Depends(get_db)):
+    """Authenticate user and return JWT token."""
+    # Query user from DB
+    user = db.query(User).filter(User.username == request.username).first()
+    
+    if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    # In a real app, generate a JWT here. For now, just return the username as a mock token.
-    return LoginResponse(token=creds.username, username=creds.username)
+    if not verify_password(request.password, user.hashed_password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    # Create JWT token
+    access_token = create_access_token(data={"sub": request.username})
+    
+    return LoginResponse(
+        access_token=access_token,
+        token_type="bearer",
+        username=request.username
+    )

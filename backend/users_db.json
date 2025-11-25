@@ -1,7 +1,7 @@
 {
   "users": {
     "admin": {
-      "password": "password",
+      "password": "$2b$12$7ILUxeTXAVTD/Tnf3M0i8.3NuVg2fXCW8b9wdO5jr6GtDb3cqkWIO",
       "resume": {
         "contact_info": {
           "name": "RAGHU RAJ SODANI",
