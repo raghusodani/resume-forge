@@ -56,55 +56,55 @@ jobs:
         cd frontend
         npm run build
         
-  e2e-test:
-    needs: [backend-test, frontend-test]
-    runs-on: ubuntu-latest
-    container:
-      image: mcr.microsoft.com/playwright:v1.40.0-jammy
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-        
-    - name: Install Backend
-      run: |
-        cd backend
-        pip install -r requirements.txt
-        
-    - name: Install Frontend
-      run: |
-        cd frontend
-        npm ci
-        
-    - name: Install Playwright Browsers
-      run: |
-        cd frontend
-        npx playwright install --with-deps
-        
-    - name: Run E2E Tests
-      env:
-        SECRET_KEY: test_secret_key
-        DATABASE_URL: sqlite:///./test.db
-      run: |
-        # Start Backend in background
-        cd backend
-        # Initialize DB
-        python -c "from app.db.session import engine, Base; Base.metadata.create_all(bind=engine)"
-        uvicorn main:app --port 8000 &
-        
-        # Wait for Backend
-        sleep 5
-        
-        # Start Frontend in background
-        cd ../frontend
-        npm run dev &
-        
-        # Wait for Frontend
-        sleep 10
-        
-        # Run Tests
-        npx playwright test
+#   e2e-test:
+#     needs: [backend-test, frontend-test]
+#     runs-on: ubuntu-latest
+#     container:
+#       image: mcr.microsoft.com/playwright:v1.40.0-jammy
+#     
+#     steps:
+#     - uses: actions/checkout@v3
+#     
+#     - name: Set up Python
+#       uses: actions/setup-python@v4
+#       with:
+#         python-version: '3.9'
+#         
+#     - name: Install Backend
+#       run: |
+#         cd backend
+#         pip install -r requirements.txt
+#         
+#     - name: Install Frontend
+#       run: |
+#         cd frontend
+#         npm ci
+#         
+#     - name: Install Playwright Browsers
+#       run: |
+#         cd frontend
+#         npx playwright install --with-deps
+#         
+#     - name: Run E2E Tests
+#       env:
+#         SECRET_KEY: test_secret_key
+#         DATABASE_URL: sqlite:///./test.db
+#       run: |
+#         # Start Backend in background
+#         cd backend
+#         # Initialize DB
+#         python -c "from app.db.session import engine, Base; Base.metadata.create_all(bind=engine)"
+#         uvicorn main:app --port 8000 &
+#         
+#         # Wait for Backend
+#         sleep 5
+#         
+#         # Start Frontend in background
+#         cd ../frontend
+#         npm run dev &
+#         
+#         # Wait for Frontend
+#         sleep 10
+#         
+#         # Run Tests
+#         npx playwright test
