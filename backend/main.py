@@ -9,14 +9,23 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Resume Tailor API")
 
+import os
+
 # Configure CORS - restrict to specific origins
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://resume-forge-sable.vercel.app",  # Production Frontend
+]
+
+# Add origins from env var
+env_origins = os.getenv("ALLOWED_ORIGINS")
+if env_origins:
+    origins.extend([origin.strip() for origin in env_origins.split(",")])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        # Add production domain when deployed
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"],
