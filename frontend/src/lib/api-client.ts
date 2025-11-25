@@ -7,7 +7,7 @@ export * from './types';
  */
 
 class ApiClient {
-  private baseURL = 'http://localhost:8000/api/v1'; // TODO: Use env var
+  private baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1';
 
   private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {
@@ -42,6 +42,13 @@ class ApiClient {
   // Auth
   async login(username: string, password: string) {
     return this.request<{ access_token: string; token_type: string; username: string }>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ username, password }),
+    });
+  }
+
+  async signup(username: string, password: string) {
+    return this.request<{ access_token: string; token_type: string; username: string }>('/auth/signup', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     });

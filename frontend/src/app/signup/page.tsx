@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -116,40 +115,39 @@ const allCompanies = [
   },
 ];
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [visibleCompanies, setVisibleCompanies] = useState(8);
   const [shootingStar, setShootingStar] = useState<number | null>(null);
-  const { login } = useAuth();
+  const { signup } = useAuth();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setVisibleCompanies((prev) => {
         if (prev < allCompanies.length) {
           setShootingStar(prev);
-          setTimeout(() => setShootingStar(null), 3000); // Updated to 3 seconds
+          setTimeout(() => setShootingStar(null), 3000);
           return prev + 1;
         }
         return prev;
       });
-    }, 10000); // Changed to 10 seconds
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
     try {
-      await login(username, password);
-      // Redirect is handled by login function in AuthContext
-    } catch (err) {
-      setError('Invalid credentials');
+      await signup(username, password);
+    } catch (err: any) {
+      setError(err.message || 'Failed to sign up');
     } finally {
       setIsLoading(false);
     }
@@ -179,7 +177,7 @@ export default function LoginPage() {
               transformOrigin: 'left top',
             }}
           >
-            Your Dream Offers Are Out There ✨
+            Start Your Journey Today ✨
           </motion.p>
         </div>
 
@@ -394,16 +392,16 @@ export default function LoginPage() {
           {/* Welcome Text */}
           <div className="text-center mb-10 relative z-30">
             <h2 className="text-3xl font-bold text-white mb-3">
-              Welcome Back 👋
+              Create Account 🚀
             </h2>
             <p className="text-lg text-gray-400">
-              Let's forge some amazing resumes
+              Join the future of resume tailoring
             </p>
           </div>
 
-          {/* Login Card */}
+          {/* Signup Card */}
           <Card className="backdrop-blur-2xl bg-gradient-to-br from-slate-900/80 to-slate-800/60 border-2 border-white/10 shadow-2xl shadow-cyan-500/10 p-8 relative z-30">
-            <form className="space-y-7" onSubmit={handleLogin}>
+            <form className="space-y-7" onSubmit={handleSignup}>
               {/* Username Field */}
               <div className="space-y-3">
                 <label className="text-base font-semibold text-white flex items-center gap-2">
@@ -414,7 +412,7 @@ export default function LoginPage() {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="wizardOfResumes"
+                  placeholder="Choose a username"
                   required
                   className="flex h-14 w-full rounded-xl border-2 border-white/20 bg-black/40 backdrop-blur-sm px-4 py-3 text-lg font-medium text-white placeholder:text-gray-500 placeholder:italic focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:border-cyan-500 transition-all duration-200 hover:border-white/30 hover:bg-black/50"
                 />
@@ -430,7 +428,7 @@ export default function LoginPage() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="super-secret-spell"
+                  placeholder="Choose a strong password"
                   required
                   className="flex h-14 w-full rounded-xl border-2 border-white/20 bg-black/40 backdrop-blur-sm px-4 py-3 text-lg font-medium text-white placeholder:text-gray-500 placeholder:italic focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:border-purple-500 transition-all duration-200 hover:border-white/30 hover:bg-black/50"
                 />
@@ -442,7 +440,7 @@ export default function LoginPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-red-400 text-sm text-center bg-red-500/10 p-4 rounded-xl border border-red-500/30 backdrop-blur-sm"
                 >
-                  🔒 {error} - Try again!
+                  ⚠️ {error}
                 </motion.div>
               )}
 
@@ -454,34 +452,19 @@ export default function LoginPage() {
               >
                 {!isLoading && (
                   <>
-                    Start Forging
+                    Sign Up
                     <ArrowRight className="ml-2 w-6 h-6" />
                   </>
                 )}
               </Button>
             </form>
 
-            {/* Demo Badge */}
-            <div className="mt-8 pt-6 border-t border-white/10">
-              <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span>Demo:</span>
-                <code className="px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded text-cyan-400 font-mono">
-                  admin
-                </code>
-                <span>/</span>
-                <code className="px-2 py-1 bg-purple-500/10 border border-purple-500/20 rounded text-purple-400 font-mono">
-                  password
-                </code>
-              </div>
-            </div>
-
-            {/* Signup Link */}
-            <div className="mt-6 pt-6 border-t border-white/10 text-center">
+            {/* Login Link */}
+            <div className="mt-8 pt-6 border-t border-white/10 text-center">
               <p className="text-gray-400">
-                Don't have an account?{' '}
-                <Link href="/signup" className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">
-                  Sign up here
+                Already have an account?{' '}
+                <Link href="/login" className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors">
+                  Log in here
                 </Link>
               </p>
             </div>

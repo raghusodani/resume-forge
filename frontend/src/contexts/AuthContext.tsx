@@ -9,6 +9,7 @@ interface AuthContextType {
   username: string | null;
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
+  signup: (username: string, password: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -51,6 +52,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const signup = async (username: string, password: string) => {
+    try {
+      const data = await apiClient.signup(username, password);
+      
+      setToken(data.access_token);
+      setUsername(data.username);
+      
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('username', data.username);
+      
+      router.push('/dashboard');
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const logout = () => {
     setToken(null);
     setUsername(null);
@@ -66,6 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         username,
         isAuthenticated: !!token,
         login,
+        signup,
         logout,
         isLoading,
       }}
