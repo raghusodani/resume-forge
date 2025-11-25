@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Sparkles, User, Lock } from 'lucide-react';
 
 const allCompanies = [
@@ -372,19 +373,13 @@ export default function LoginPage() {
               className="flex items-center justify-center gap-3 mb-12 cursor-pointer group relative z-30"
               whileHover={{ scale: 1.05 }}
             >
-              <motion.div 
-                className="w-14 h-14 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-cyan-500/50"
-                animate={{
-                  rotate: [0, 360],
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              >
-                <Sparkles className="w-7 h-7 text-white" />
-              </motion.div>
+              <Image 
+                src="/logo.png" 
+                alt="Resume Forge Logo" 
+                width={56} 
+                height={56} 
+                className="rounded-2xl shadow-lg shadow-cyan-500/50"
+              />
               <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
                 ResumeForge
               </h1>

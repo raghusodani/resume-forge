@@ -12,6 +12,7 @@ import { PdfViewer } from '@/components/resume/PdfViewer';
 import { Upload, FileText, LogOut, Edit2, Save, X, ChevronRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Dashboard() {
   const { token, logout, isAuthenticated, isLoading: authLoading } = useAuth();
@@ -112,9 +113,7 @@ export default function Dashboard() {
       {/* Top Navigation */}
       <nav className="bg-black/50 backdrop-blur-xl border-b border-white/10 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-cyan-500/20">
-            <span className="text-xl">R</span>
-          </div>
+          <Image src="/logo.png" alt="Resume Forge Logo" width={40} height={40} className="rounded-xl shadow-lg shadow-cyan-500/20" />
           <span className="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
             Resume Forge
           </span>
